@@ -1,8 +1,6 @@
 # Broadworks-OCI-P-Library
 Broadworks OCI-P Client 
 
-### Requirements 
-- httplib2
 
 ## How To Use
 
