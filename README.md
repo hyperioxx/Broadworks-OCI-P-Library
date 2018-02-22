@@ -19,6 +19,36 @@ If you look at the example above you need to specify the OCI call name and the n
 
 the return data will be a dict containing all the info from OCIResponce 
 
+## Supported OCI Calls 
+
+- ServiceProviderServicePackGetListRequest
+- AuthenticationRequest
+- LoginRequest14sp4
+- ServiceProviderGetListRequest
+- GroupGetListInServiceProviderRequest
+- GroupServiceGetAuthorizationListRequest
+- GroupAutoAttendantGetInstanceListRequest
+- GroupHuntGroupGetInstanceListRequest
+- GroupCallCenterGetInstanceListRequest
+- GroupRoutePointGetInstanceListRequest
+- GroupTrunkGroupGetInstanceListRequest14
+- GroupFlexibleSeatingHostGetInstanceListRequest
+- GroupVoiceXmlGetInstanceListRequest
+- GroupGroupPagingGetInstanceListRequest
+- GroupMeetMeConferencingGetInstanceListRequest
+- GroupCallPickupGetInstanceListRequest
+- GroupBroadWorksAnywhereGetInstanceListRequest
+- GroupDnGetListRequest
+- UserGetRequest20
+- LogoutRequest
+- UserVoiceMessagingUserModifyVoicePortalRequest20
+- UserModifyRequest17sp4
+- UserCallRecordingModifyRequest
+- UserHotelingGuestModifyRequest
+- UserHotelingHostModifyRequest
+- UserIntegratedIMPModifyRequest
+- UserIntegratedIMPGeneratePasswordRequest
+- UserPortalPasscodeModifyRequest
 
 
 
