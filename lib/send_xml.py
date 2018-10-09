@@ -3,6 +3,7 @@ import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 import urllib2
 import xml.etree.ElementTree as ET
+from lxml import objectify
 from lib.session import jsession
 from lib.soap_responce import Soap_obj
 
@@ -66,6 +67,7 @@ class Send_xml():
 
         except urllib2.HTTPError, error:
               err = self._map_to_soap_obj(error.read())
+             
 
 
 

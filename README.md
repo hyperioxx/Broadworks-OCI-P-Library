@@ -47,9 +47,33 @@ the return data will be a dict containing all the info from OCIResponce
 - UserHotelingGuestModifyRequest
 - UserHotelingHostModifyRequest
 - UserIntegratedIMPModifyRequest
+- UserGetListInGroupRequest
 - UserIntegratedIMPGeneratePasswordRequest
 - UserPortalPasscodeModifyRequest
-
-
-
-
+- SystemRoutingGetRequest
+- SystemSoftwareVersionGetRequest
+- SystemSIPGetContentTypeListRequest
+- SystemSIPDeviceTypeGetListRequest
+- SystemSIPDeviceTypeFileModifyRequest16sp1
+- SystemCarrierGetListRequest
+- SystemSIPDeviceTypeFileGetListRequest14sp8
+- SystemRoutingProfileGetListRequest
+- SystemRoutingGetTranslationListRequest
+- SystemRoutingGetRouteListRequest
+- SystemRoutingGetRouteDeviceListRequest
+- SystemRedundancyParametersGetRequest16sp2
+- SystemPortalPasscodeRulesGetRequest19
+- SystemPortalAPIGetACLListRequest
+- SystemPolicyGetDefaultRequest20
+- SystemPasswordRulesGetRequest16
+- SystemNetworkSynchingServerGetListRequest
+- SystemSIPDeviceTypeFileGetRequest20
+- UserAuthenticationModifyRequest
+- UserCallForwardingNotReachableModifyRequest
+- GroupModifyRequest
+- GroupDnGetAvailableListRequest
+- GroupCallProcessingGetPolicyRequest19sp1
+- GroupCallProcessingModifyPolicyRequest15sp2
+- UserVoiceMessagingUserModifyVoicePortalRequest20
+- UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest
+- UserVoiceMessagingUserGetAdvancedVoiceManagementRequest14sp3

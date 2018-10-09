@@ -4,6 +4,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 import cgi
 import lib.session.session_id
 
+
+from xml.etree.ElementTree import Element, SubElement, tostring
 #custom traceback errors for broadworks
 from lib.errors.broadworks_errors import BroadworksOCIP
 
@@ -50,7 +52,7 @@ class Xml_builder:
                                      "AuthenticationRequest": {'userId': None,"order":["userId"]},
                                      "LoginRequest14sp4":{'userId': None,'signedPassword': None,"order":["userId","signedPassword"]},
                                      "ServiceProviderGetListRequest":{"order":[]},
-                                     "GroupGetListInServiceProviderRequest":{'serviceProviderId':None},
+                                     "GroupGetListInServiceProviderRequest":{'serviceProviderId':None,"order":["serviceProviderId"]},
                                      "GroupServiceGetAuthorizationListRequest":{'serviceProviderId': None,'groupId':None,"order":["serviceProviderId","groupId"]},
                                      "GroupAutoAttendantGetInstanceListRequest":{'serviceProviderId':None,'groupId':None,"order":["serviceProviderId","groupId"]},
                                      "GroupHuntGroupGetInstanceListRequest":{'serviceProviderId':None,'groupId':None,"order":["serviceProviderId","groupId"]},
@@ -67,7 +69,7 @@ class Xml_builder:
                                      "UserGetRequest20":{'userId':None,"order":["userId"]},
                                      "LogoutRequest":{'userId':None,'reason':'Client Logout',"order":["userId","reason"]},
                                      "UserVoiceMessagingUserModifyVoicePortalRequest20":{"voicePortalAutoLogin":None,"userId":None,"order":["userId","voicePortalAutoLogin"]},
-                                     "UserModifyRequest17sp4":{"userId":None,"timeZone":None,"language":None,"order":["userId","timeZone","language"]},
+                                     "UserModifyRequest17sp4":{"userId":None,"timeZone":None,"language":None,"callingLineIdPhoneNumber":None,"order":["userId","timeZone","language","callingLineIdPhoneNumber"]},
                                      "UserCallRecordingModifyRequest":{"userId":None,"recordingOption":None,"order":["userId","recordingOption"]},
                                      "UserHotelingGuestModifyRequest":{"userId":None,"isActive":None,"enableAssociationLimit":None,
                                                                        "associationLimitHours":None,"order":["userId","isActive","enableAssociationLimit","associationLimitHours"]},
@@ -76,9 +78,42 @@ class Xml_builder:
                                                                       "associationLimitHours":None,"accessLevel":None,
                                                                       "removeGuestAssociation":None,"order":["serviceProviderId","groupId"]},
                                      "UserIntegratedIMPModifyRequest":{"userId":None,"isActive":None,"order":["serviceProviderId","groupId"]},
+                                     "UserGetListInGroupRequest":{"serviceProviderId":None,"GroupId":None,"order":["serviceProviderId","GroupId"]},
                                      "UserIntegratedIMPGeneratePasswordRequest":{"userId":None,"order":["serviceProviderId","groupId"]},
-                                     "UserPortalPasscodeModifyRequest":{"userId":None,"newPasscode":None,"order":["userId","newPasscode"]}
-                                     }
+                                     "UserPortalPasscodeModifyRequest":{"userId":None,"newPasscode":None,"order":["userId","newPasscode"]},
+                                     "SystemRoutingGetRequest":{"order":[]},
+                                     "SystemSoftwareVersionGetRequest":{"order":[]},
+                                     "SystemSIPGetContentTypeListRequest":{"order":[]},
+                                     "SystemSIPDeviceTypeGetListRequest":{"order":[]},
+                                     "SystemSIPDeviceTypeFileModifyRequest16sp1":{"deviceType":None,"fileFormat":None,
+                                                                                  "fileCustomization":None,"fileUpload":{"sourceFileName":None,
+                                                                                  "fileContent":None},"order":["deviceType","fileFormat","fileCustomization","fileUpload"]},
+                                     "SystemCarrierGetListRequest":{"order":[]},
+                                     "SystemSIPDeviceTypeFileGetListRequest14sp8":{"deviceType":None,"order":["deviceType"]},
+                                     "SystemRoutingProfileGetListRequest":{"order":[]},
+                                     "SystemRoutingGetTranslationListRequest":{"order":[]},
+                                     "SystemRoutingGetRouteListRequest":{"order":[]},
+                                     "SystemRoutingGetRouteDeviceListRequest":{"routeName":None,"order":["routeName"]},
+                                     "SystemRedundancyParametersGetRequest16sp2":{"order":[]},
+                                     "SystemPortalPasscodeRulesGetRequest19":{"order":[]},
+                                     "SystemPortalAPIGetACLListRequest":{"order":[]},
+                                     "SystemPolicyGetDefaultRequest20":{"order":[]},
+                                     "SystemPasswordRulesGetRequest16":{"order":[]},
+                                     "SystemNetworkSynchingServerGetListRequest":{"order":[]},
+                                     "SystemSIPDeviceTypeFileGetRequest20":{"deviceType":None,"fileFormat":None,"order":["deviceType","fileFormat"]},
+                                     "UserAuthenticationModifyRequest":{"userId":None,"newPassword":None,"order":["userId","newPassword"]},
+                                     "UserCallForwardingNotReachableModifyRequest":{"userId":None,"isActive":None,"forwardToPhoneNumber":None,"order":["userId","isActive","forwardToPhoneNumber"]},
+                                     "GroupModifyRequest":{"serviceProviderId":None,"groupId":None,
+                                                           "defaultDomain":None,"userLimit":None,"groupName":None,
+                                                           "callingLineIdName":None,"callingLineIdPhoneNumber":None,
+                                                           "timeZone":None,"locationDialingCode":None,"contact":None,
+                                                           "address":{},"order":["serviceProviderId","groupId","defaultDomain","userLimit","groupName","callingLineIdName","callingLineIdPhoneNumber","timeZone","locationDialingCode","contact","address"]},
+                                     "GroupDnGetAvailableListRequest":{"serviceProviderId":None,"groupId":None,"order":["serviceProviderId","groupId"]},
+                                     "GroupCallProcessingGetPolicyRequest19sp1":{"serviceProviderId":None,"groupId":None,"order":["serviceProviderId","groupId"]},
+                                     "GroupCallProcessingModifyPolicyRequest15sp2":{"serviceProviderId":None,"groupId":None,"clidPolicy":None,"emergencyClidPolicy":None,"order":["serviceProviderId","groupId","clidPolicy","emergencyClidPolicy"]},
+                                     "UserVoiceMessagingUserModifyVoicePortalRequest20":{"userId":None,"usePersonalizedName":None,"voicePortalAutoLogin":None,"personalizedNameAudioFile": None,"order":["userId","usePersonalizedName","voicePortalAutoLogin","personalizedNameAudioFile"]},
+                                     "UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest":{"userId":None,"groupMailServerEmailAddress":None,"groupMailServerUserId":None,"groupMailServerPassword":None,"order":["userId","groupMailServerEmailAddress","groupMailServerUserId"]},
+                                     "UserVoiceMessagingUserGetAdvancedVoiceManagementRequest14sp3":{"userId":None,"order":['userId']}}
 
 
     def _create_xml(self,api_call,**kwargs):
@@ -91,14 +126,7 @@ class Xml_builder:
         else:
             sessionid = self.sessionid
         xml_buffer = xml_buffer + self._xml + sessionid.return_sessionid()
-        xml_buffer = xml_buffer + self.actionType.format(api_call)
-        for k in self._supported_api_calls[api_call]["order"]:
-            value  = self._supported_api_calls[api_call][k]
-            if value != None:
-                xml_buffer = xml_buffer + "<{}>{}</{}>".format(k,self._supported_api_calls[api_call][k][0],k)
-            else:
-                pass
-        xml_buffer = xml_buffer + '</command>'
+        xml_buffer = xml_buffer + self. _new_create_xml(api_call,**kwargs)
         xml_buffer = xml_buffer + '</BroadsoftDocument>'
         xml_buffer = cgi.escape(xml_buffer, quote=False)
         xml_buffer = xml_buffer.replace("&amp;", "&amp;amp;")
@@ -118,13 +146,36 @@ class Xml_builder:
             raise BroadworksOCIP()
         for sub_element in options_dict:
             try:
-                self._supported_api_calls[api_call][sub_element] = [options_dict[sub_element]]
+                if type(self._supported_api_calls[api_call][sub_element]).__name__ == "dict":
+                    for sub_sub_element in options_dict:
+                        self._supported_api_calls[api_call][sub_element][sub_sub_element] = options_dict[sub_sub_element]
+                else:
+                    self._supported_api_calls[api_call][sub_element] = options_dict[sub_element]
             except KeyError as e:
                 raise BroadworksOCIP_Xml_Tag()
 
 
     def return_sub_xml_tags(self,api_call):
         pass
+
+
+    def _new_create_xml(self,api_call,**kwargs):
+        message = self._supported_api_calls
+        top = Element('command', attrib={"xsi:type": api_call, "xmlns": ""})
+        for y in message[api_call]["order"]:
+                if type(message[api_call][y]).__name__ == "dict":
+                    l = SubElement(top, y)
+                    for i in message[api_call][y]:
+                        t = SubElement(l, i)
+                        for m in message[api_call][y]:
+                            t.text = m
+                else:
+                    if message[api_call][y] != None:
+                        l = SubElement(top, y)
+                        l.text = message[api_call][y]
+                    else:
+                        pass
+        return tostring(top)
 
 
 
