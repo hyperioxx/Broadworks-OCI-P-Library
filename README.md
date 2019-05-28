@@ -1,5 +1,5 @@
-# Broadworks-OCI-P-Library
-Broadworks OCI-P Client 
+# Broadworks OCI-P (Open Command Interface Provisioning) Client
+ 
 
  
 
