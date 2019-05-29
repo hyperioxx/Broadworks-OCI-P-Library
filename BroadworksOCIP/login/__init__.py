@@ -18,7 +18,7 @@ class AuthenticationRequest:
 
 
     def get_raw_xml(self):
-        self.broadsoft_doc.export(self.inmemfile,0)
+        self.broadsoft_doc.export(self.inmemfile, 0)
         print(self.inmemfile.getvalue())
 
 
