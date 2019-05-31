@@ -1,9 +1,10 @@
 import io
-from BroadworksOCIP.utils.broadworks.schema.OCISchemaAS import \
+from BroadworksOCIP.broadworks.schema import \
     UserGetListInSystemRequest as UserSys
 
-from BroadworksOCIP.utils.broadworks.schema.OCISchemaAS import \
-    BroadsoftDocument, searchCriteriaUserId
+from BroadworksOCIP.broadworks.schema import \
+    BroadsoftDocument
+
 
 class UserGetListInSystemRequest:
 
