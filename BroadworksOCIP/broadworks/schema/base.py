@@ -26,7 +26,6 @@ class BroadsoftDocument:
 
     def _export(self):
         root = ET.Element(self.node_name, xmlns="C")
-        root.set("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance")
         if self.sessionId:
             sessionId = ET.SubElement(root, 'sessionId', xmlns="").text = str(self.sessionId)
         if self.userId:

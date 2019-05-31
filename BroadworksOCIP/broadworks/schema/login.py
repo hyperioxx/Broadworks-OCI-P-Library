@@ -15,7 +15,9 @@ class AuthenticationRequest:
 
     def _export(self):
         root = ET.Element(self.node_name, xmlns="")
+        root.set("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance")
         root.set("xsi:type", self.command_name)
+        root.set("xmlns", "")
         if self.userId:
             userId = ET.SubElement(root,"userId").text = self.userId
         return ET.tostring(root)
