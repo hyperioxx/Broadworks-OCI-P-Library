@@ -1,6 +1,7 @@
+from BroadworksOCIP.broadworks.schema.base import BroadsoftDocument
 import xml.etree.cElementTree as ET
 
-class AuthenticationRequest:
+class AuthenticationRequest(BroadsoftDocument):
 
     def __init__(self, userId=None):
         self.command_name = "AuthenticationRequest"

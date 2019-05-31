@@ -26,12 +26,15 @@ class BroadsoftDocument:
 
     def _export(self):
         root = ET.Element(self.node_name, xmlns="C")
+
         if self.sessionId:
-            sessionId = ET.SubElement(root, 'sessionId', xmlns="").text = str(self.sessionId)
+            ET.SubElement(root, 'sessionId', xmlns="").text = str(self.sessionId)
         if self.userId:
-            userId = ET.SubElement(root, 'userId', xmlns="").text = self.userId
+            ET.SubElement(root, 'userId', xmlns="").text = self.userId
         if self.phoneNumber:
-            phoneNumber = ET.SubElement(root, 'phoneNumber', xmlns="").text = self.phoneNumber
+            ET.SubElement(root, 'phoneNumber', xmlns="").text = self.phoneNumber
+        if self.protocol:
+            root.set("protocol", self.protocol)
         for command in self.commands:
             command = root.append(ET.fromstring(str(command)))
 
