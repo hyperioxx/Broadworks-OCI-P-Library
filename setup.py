@@ -8,15 +8,17 @@ def read(fname):
 
 setup(
     name = "BroadworksOCIP",
-    version = "0.0.1",
+    version = "0.0.2",
     author = "Aaron Parfitt",
     author_email = "aaronparfitt123@gmail.com",
-    description = ("Broadworks Open Command Interface Client"),
+    description = ("Broadworks Open Client Interface Client"),
     license = "BSD",
     keywords = "Broadworks",
     packages=find_packages(),
+    install_requires = ['zeep',],
+    long_description_content_type="text/markdown",
     long_description=read('README.md'),
-    scripts=['scripts/bw-ocip'],
+    #scripts=['scripts/bw-ocip'],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
     ],

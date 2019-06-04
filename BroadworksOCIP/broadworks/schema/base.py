@@ -36,7 +36,8 @@ class BroadsoftDocument:
         if self.protocol:
             root.set("protocol", self.protocol)
         for command in self.commands:
-            command = root.append(ET.fromstring(str(command)))
+            root.append(ET.fromstring(str(command)))
+            root.find("command").set("xmlns","")
 
         return ET.tostring(root)
 
