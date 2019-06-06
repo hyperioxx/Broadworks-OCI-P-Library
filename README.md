@@ -6,7 +6,16 @@
 #  Broadworks OCI-P (Open Client Interface Provisioning) Client
 
 
-Broadworks Version: 20sp1
+## Broadworks Release Testing
+
+Anyone is welcome to test the client against any untested releases and confirm the results
+
+| Release        | Tested          |
+| ------------- |:-------------:| 
+|Release 20    | Yes |
+|Release 21     | No  (Soon!)    |
+|Release 22 | No      |
+|Release 23|No|
 
 ## Installing
 
