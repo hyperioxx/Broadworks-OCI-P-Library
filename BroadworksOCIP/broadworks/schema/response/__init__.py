@@ -1,6 +1,7 @@
 import xml.etree.cElementTree as ET
 from BroadworksOCIP.broadworks.schema.response.login import *
 from BroadworksOCIP.broadworks.schema.response.system import *
+from BroadworksOCIP.broadworks.schema.response.serviceprovider import *
 from BroadworksOCIP.broadworks.errors import ErrorResponse
 
 
@@ -19,9 +20,13 @@ class ResponseFactory:
             return SystemSoftwareVersionGetResponse(oci_response)
         elif oci_type == "SystemCodecGetListResponse":
             return SystemCodecGetListResponse(oci_response)
+        elif oci_type == "ServiceProviderGetListResponse":
+            return ServiceProviderGetListResponse(oci_response)
+        elif oci_type == "ServiceProviderGetResponse17sp1":
+            return ServiceProviderGetResponse17sp1(oci_response)
         elif oci_type == "c:ErrorResponse":
-            raise ErrorResponse(ET.fromstring(oci_response).find("command").find("summary").text)
-        print(oci_response)
+            raise ErrorResponse(ET.fromstring(oci_response).find("command").find("summary").text, ET.fromstring(oci_response).find("command").find("detail").text )
+
 
 
 
