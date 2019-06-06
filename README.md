@@ -15,7 +15,7 @@ Broadworks Version: 20sp1
 pip install BroadworksOCIP
 
 ```
-
+## How to Use
 
 ```python
 from BroadworksOCIP import Client
