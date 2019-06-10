@@ -17,6 +17,34 @@ Anyone is welcome to test the client against any untested releases and confirm t
 |Release 22 | No      |
 |Release 23|No|
 
+
+
+## Usable OCI Calls
+
+### System Level Calls
+
+- SystemRoutingGetRequest
+- SystemSoftwareVersionGetRequest
+- SystemCodecGetListRequest
+
+### Service Prvider Level Calls
+
+- ServiceProviderGetListRequest
+- ServiceProviderGetRequest17sp1
+
+### Group Level Calls
+
+Not Yet !
+
+### User Level Calls
+
+Not Yet !
+
+## Login Level Calls
+
+- AuthenticationRequest
+- LoginRequest14sp4
+
 ## Installing
 
 ```bash
