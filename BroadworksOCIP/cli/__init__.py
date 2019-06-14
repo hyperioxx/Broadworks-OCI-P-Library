@@ -1,0 +1,246 @@
+"""
+Library which runs the command line interface which is based off the
+broadworks command line interface for ease of use
+"""
+import sys
+import cmd
+import getpass
+from BroadworksOCIP import Client
+from BroadworksOCIP.broadworks.schema.request.system import SystemRoutingGetRequest
+
+
+
+__version__ = "0.0.4" #todo: change version every release
+
+INTRO1 = """
+ #######   ######  ########      ######  ##       #### ######## ##    ## ######## 
+##     ## ##    ## ##     ##    ##    ## ##        ##  ##       ###   ##    ##    
+##     ## ##       ##     ##    ##       ##        ##  ##       ####  ##    ##    
+##     ## ##       ########     ##       ##        ##  ######   ## ## ##    ##    
+##     ## ##       ##           ##       ##        ##  ##       ##  ####    ##    
+##     ## ##    ## ##           ##    ## ##        ##  ##       ##   ###    ##    
+ #######   ######  ##            ######  ######## #### ######## ##    ##    ##   
+"""
+
+INTRO = """
+OCIP Client Copyright (C) 2018  Aaron Kirk Parfitt 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+This is free software, and you are welcome to redistribute it 
+under certain conditions; type `show c' for details.
+======================================================================
+OCIP Client Command Line Interface
+  Type help <command> for more information
+======================================================================
+"""
+
+WARREANTY = """
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+
+class BWClient:
+    CLIENT = None
+
+
+class BaseShell(cmd.Cmd):
+    host = None
+
+    def default(self, line):
+        self.stdout.write('Invalid command\n\n')
+
+    def do_help(self, arg):
+        if arg:
+            try:
+                func = getattr(self, 'help_' + arg)
+            except AttributeError:
+                try:
+                    doc = getattr(self, 'do_' + arg).__doc__
+                    if doc:
+                        self.stdout.write("%s\n" % str(doc))
+                        return
+                except AttributeError:
+                    pass
+                self.stdout.write("%s\n" % str(self.nohelp % (arg,)))
+                return
+            func()
+        else:
+            names = self.get_names()
+            cmds_doc = []
+            cmds_undoc = []
+            help = {}
+            for name in names:
+                if name[:5] == 'help_':
+                    help[name[5:]] = 1
+            names.sort()
+            prevname = ''
+            for name in names:
+                if name[:3] == 'do_':
+                    if name == prevname:
+                        continue
+                    prevname = name
+                    cmd = name[3:]
+                    if cmd in help:
+                        cmds_doc.append(cmd)
+                        del help[cmd]
+                    elif getattr(self, name).__doc__:
+                        cmds_doc.append(cmd)
+                    else:
+                        cmds_undoc.append(cmd)
+            self.stdout.write("%s\n" % str(self.doc_leader))
+            self.print_topics(self.doc_header, cmds_doc, 15, 80)
+            self.print_topics(self.misc_header, list(help.keys()), 15, 80)
+            self.print_topics(self.undoc_header, cmds_undoc, 15, 80)
+
+    def print_topics(self, header, cmds, cmdlen, maxcol):
+        if header != None:
+            if cmds:
+                self.stdout.write("%s\n" % str(header))
+                self.columnize(cmds, maxcol - 1)
+                self.stdout.write("\n")
+
+    def columnize(self, list, displaywidth=80):
+        for index, item in enumerate(list):
+            #todo:fix this
+            if item == "get":
+                print
+                "    " + str(index) + ") " + "{:>8}".format(item) + " " \
+                                                                    ": show related attributes"
+            elif item == "set":
+                print
+                "    " + str(index) + ") " + "{:>8}".format(item) + " " \
+                                                                    ": modify related attributes"
+            else:
+                print("    " + str(index) + ") " + "{:>30}".format(item) + " : go to level {}".format(item))
+
+    def parse_commands(self, line):
+        commands = {}
+        try:
+            for i in range(0, len(line), 2):
+                chunk = line[i:i + 2]
+                commands[chunk[0]] = chunk[1]
+            return commands
+        except IndexError:
+            return None
+
+    def do_version(self, c):
+        print("OCIP CLIENT Version: " + __version__)
+
+    def do_exit(self, i):
+        print("Exiting the CLI ...")
+        return True
+
+    def do_q(self, i):
+        return True
+
+    def do_comp(self, c):
+        print
+        self.completion_matches
+
+
+class OcipClientShell(BaseShell):
+    _prompt = "OCIP-CLI"
+    prompt = _prompt + "> "
+    host = "localhost"
+    doc_header = "Commands:"
+    intro = INTRO1 + INTRO
+    undoc_header = None
+    ruler = False
+    connection = True
+
+    def __init__(self):
+        cmd.Cmd.__init__(self)
+        self.aliases = {}
+        #self.aliases = {'0': self.do_AuthorizeToken,
+        #                '1': self.do_Connect,
+        #                '2': self.do_GetAllHostingNeNodeAddresses,
+        #                '3': self.do_GetDeviceFileServingAS,
+        #                '4': self.do_GetHostNodeAddresses,
+        #                '5': self.do_GetHostingNEInfo,
+        #                '6': self.do_GetHostsForEnterprise,
+        #                '7': self.do_GetServingAS,
+        #                '8': self.do_GetWebServerPortal,
+        #                'conn': self.do_Connect, }
+
+
+    def do_login(self, c):
+        ocip_url = input("url: ")
+        username = input("username: ")
+        passwrd = getpass.getpass()
+
+        BWClient.CLIENT = Client(username=username, address=ocip_url, password=passwrd)
+        BWClient.CLIENT.login()
+
+    def do_System(self, c):
+        """System level OCIP Commands"""
+        SystemShell().cmdloop()
+
+
+
+    def do_show(self, option):
+        if option == "w":
+            print(WARREANTY)
+        elif option == "c":
+            print
+            """ dsasdasda"""
+        else:
+            print
+            """ *** unknown show command"""
+
+    def precmd(self, line):
+        if BWClient.CLIENT == None:
+            try:
+                if line.split()[0] not in ("Connect", "?", "help", "exit","q", "show", "version", 'login'):
+                    print("Not logged into OCIP\n")
+                    self.lastcmd = ""
+                    return ''
+                else:
+                    return line
+            except IndexError:
+                return line
+        else:
+            return line
+
+
+    def default(self, line):
+        cmd, arg, line = self.parseline(line)
+        if cmd in self.aliases:
+            self.aliases[cmd](arg)
+        else:
+            print("Invalid command\n\n")
+
+
+
+
+
+class SystemShell(BaseShell):
+    _prompt = "OCIP-CLI/System"
+    prompt = _prompt + "> "
+    undoc_header = None
+    doc_header = "Commands:"
+
+    def do_SystemRoutingGetRequest(self, c):
+        """Get System Routing Options"""
+        response = BWClient.CLIENT.send(SystemRoutingGetRequest())
+        print("isRouteRoundRobin: " + str(response.is_route_round_robin()))
+        print("routeTimerSeconds: " + response.get_route_timer_seconds())
+        print("dnsResolvedAddressSelectionPolicy: " + response.get_dns_policy())
+        print("statefulExpirationMinutes: " + response.get_statefulexpiration())
+        print("maxAddressesPerHostname: " + response.get_maxaddresseshost())
+        print("maxAddressesDuringSetup: " + response.get_maxaddressessetup())
+
+
+if __name__ == "__main__":
+    try:
+        OcipClientShell.cmdloop(OcipClientShell())
+    except KeyboardInterrupt:
+        sys.exit()

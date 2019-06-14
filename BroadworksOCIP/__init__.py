@@ -20,6 +20,7 @@ class Client:
         self.protocol = "OCI"
         self.session = Session()
         self.client = _Client(self.address , transport=Transport(session=self.session))
+        self.client.settings( force_https=False)
         self.jsession = None
         self.bw_session = None
         self.log = None

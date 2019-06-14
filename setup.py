@@ -8,7 +8,7 @@ def read(fname):
 
 setup(
     name = "BroadworksOCIP",
-    version = "0.0.3",
+    version = "0.0.4",
     author = "Aaron Parfitt",
     author_email = "aaronparfitt123@gmail.com",
     description = ("Broadworks Open Client Interface Client"),
@@ -18,7 +18,7 @@ setup(
     install_requires = ['zeep',],
     long_description_content_type="text/markdown",
     long_description=read('README.md'),
-    #scripts=['scripts/bw-ocip'],
+    scripts=['scripts/bw-ocip'],
     classifiers=[
         "Development Status :: 3 - Alpha",
     ],
