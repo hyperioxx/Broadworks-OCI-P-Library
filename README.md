@@ -6,7 +6,44 @@
 #  Broadworks OCI-P (Open Client Interface Provisioning) Client
 
 
-Broadworks Version: 20sp1
+## Broadworks Release Testing
+
+Anyone is welcome to test the client against any untested releases and confirm the results
+
+| Release        | Tested          |
+| ------------- |:-------------:| 
+|Release 20    | Yes |
+|Release 21     | No  (Soon!)    |
+|Release 22 | No      |
+|Release 23|No|
+
+
+
+## Usable OCI Calls
+
+### System Level Calls
+
+- SystemRoutingGetRequest
+- SystemSoftwareVersionGetRequest
+- SystemCodecGetListRequest
+
+### Service Prvider Level Calls
+
+- ServiceProviderGetListRequest
+- ServiceProviderGetRequest17sp1
+
+### Group Level Calls
+
+Not Yet !
+
+### User Level Calls
+
+Not Yet !
+
+### Login Level Calls
+
+- AuthenticationRequest
+- LoginRequest14sp4
 
 ## Installing
 
@@ -15,7 +52,7 @@ Broadworks Version: 20sp1
 pip install BroadworksOCIP
 
 ```
-
+## How to Use
 
 ```python
 from BroadworksOCIP import Client
