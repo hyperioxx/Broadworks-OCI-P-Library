@@ -13,5 +13,11 @@ class OCIRequest:
         self.root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
         self.root.set("xsi:type", self.command_name)
 
+    def register_field(self, var, data):
+        var = data
+
     def _export(self):
         raise NotImplementedError()
+
+
+
