@@ -42,8 +42,10 @@ class UserVoiceMessagingUserModifyVoicePortalRequest20(OCIRequest):
         ET.SubElement(root, "userId").text = self.userid
         if self.usepersonalizedname:
             ET.SubElement(root, "usePersonalizedName").text = self.usepersonalizedname
-        if self.auto_login:
-            ET.SubElement(root,"voicePortalAutoLogin").text = "true"
+        if self.auto_login == False:
+            ET.SubElement(root,"voicePortalAutoLogin").text = "false"
+        else:
+            ET.SubElement(root, "voicePortalAutoLogin").text = "true"
         if self.personalizednameaudiofile:
             ET.SubElement(root, "personalizedNameAudioFile").text = self.personalizednameaudiofile
         return ET.tostring(root)
