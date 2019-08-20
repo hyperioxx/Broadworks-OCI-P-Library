@@ -84,6 +84,20 @@ class ServiceProviderGetResponse17sp1:
 
 
 
+class ServiceProviderDomainGetAssignedListResponse:
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        tree = ET.fromstring(oci_response)
+        self.domains = []
+        try:
+            self.domains.append(tree.find('command').find("serviceProviderDefaultDomain").text)
+            for domain in tree.find("command").findall("domain"):
+                self.domains.append(domain.text)
+        except AttributeError:
+            print("asdasd")
+
+    def get_domains(self):
+        return self.domains
 
 
 

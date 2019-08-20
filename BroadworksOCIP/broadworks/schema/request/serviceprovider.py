@@ -83,6 +83,23 @@ class ServiceProviderAddRequest13mp2(OCIRequest):
 
 
 
+class ServiceProviderDomainGetAssignedListRequest(OCIRequest):
+    def __init__(self, serviceproviderid=None):
+        if not serviceproviderid:
+            raise RequiredField("missing required field: serviceproviderid")
+        self.command_name = "ServiceProviderDomainGetAssignedListRequest"
+        self.node_name = "command"
+        self.serviceprovider = serviceproviderid
+        self.create_command_root()
+
+
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(root,"serviceProviderId").text = self.serviceprovider
+        return ET.tostring(root)
 
 
 

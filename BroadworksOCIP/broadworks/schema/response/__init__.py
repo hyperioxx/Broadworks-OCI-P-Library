@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 from BroadworksOCIP.broadworks.schema.response.login import *
 from BroadworksOCIP.broadworks.schema.response.system import *
 from BroadworksOCIP.broadworks.schema.response.serviceprovider import *
+from BroadworksOCIP.broadworks.schema.response.group import *
+from BroadworksOCIP.broadworks.schema.response.user import *
 from BroadworksOCIP.broadworks.errors import ErrorResponse
 
 
@@ -24,9 +26,22 @@ class ResponseFactory:
             return ServiceProviderGetListResponse(oci_response)
         elif oci_type == "ServiceProviderGetResponse17sp1":
             return ServiceProviderGetResponse17sp1(oci_response)
+        elif oci_type == "ServiceProviderDomainGetAssignedListResponse":
+            return ServiceProviderDomainGetAssignedListResponse(oci_response)
+        elif oci_type == "GroupGetListInServiceProviderResponse":
+            return GroupGetListInServiceProviderResponse(oci_response)
+        elif oci_type == "GroupDnGetListResponse":
+            return GroupDnGetListResponse(oci_response)
+        elif oci_type == "GroupDomainGetAssignedListResponse":
+            return GroupDomainGetAssignedListResponse(oci_response)
+        elif oci_type == "GroupGetResponse14sp7":
+            return GroupGetResponse14sp7(oci_response)
+        elif oci_type == "UserGetListInGroupResponse":
+            return UserGetListInGroupResponse(oci_response)
+        elif oci_type == "c:SuccessResponse":
+            return "Succsess"
         elif oci_type == "c:ErrorResponse":
-            raise ErrorResponse(ET.fromstring(oci_response).find("command").find("summary").text, ET.fromstring(oci_response).find("command").find("detail").text )
-
+            raise ErrorResponse(ET.fromstring(oci_response).find("command").find("summary").text)
 
 
 
