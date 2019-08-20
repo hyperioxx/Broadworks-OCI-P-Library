@@ -1,2 +1,8 @@
 site_name: Broadworks OCIP
 docs_dir: docs
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - python
