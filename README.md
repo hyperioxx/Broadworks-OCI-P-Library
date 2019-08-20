@@ -35,11 +35,22 @@ Anyone is welcome to test the client against any untested releases and confirm t
 
 ### Group Level Calls
 
-Not Yet !
+- GroupGetListInServiceProviderRequest
+- GroupDnGetListRequest
+- GroupGetRequest14sp7
+- GroupDomainGetAssignedListRequest
+- GroupAddRequest
+- GroupServiceAssignListRequest
+- GroupServiceUnassignListRequest
+- GroupDeleteRequest
+- GroupDnAssignListRequest
+- GroupDnUnassignListRequest
+- GroupDnGetAvailableListRequest
 
 ### User Level Calls
 
-Not Yet !
+- UserGetListInGroupRequest
+- UserVoiceMessagingUserModifyVoicePortalRequest20
 
 ### Login Level Calls
 
