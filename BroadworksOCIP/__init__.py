@@ -13,15 +13,17 @@ from BroadworksOCIP.broadworks.schema.response.login import AuthenticationRespon
 
 class Client:
 
-    def __init__(self, address=None, username=None, password=None):
+    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None):
         self.address = address + "?wsdl"
         self.username = username
         self.password = password
         self.protocol = "OCI"
+        self.jsession = jsession
+        self.bw_session = bwsession
         self.session = Session()
+        if jsession:
+            self.session.cookies['JSESSIONID'] = jsession
         self.client = _Client(self.address , transport=Transport(session=self.session))
-        self.jsession = None
-        self.bw_session = None
         self.log = None
         self.login_type = None
 
