@@ -11,7 +11,7 @@ class ServiceProviderGetListRequest(OCIRequest):
             self.isenterprise = "false"
         else:
             self.isenterprise = "true"
-        self.response_size = 100
+        self.response_size = 500
         self.search = SearchCriteriaServiceProviderId(value=serviceprovider)
         self.serviceprovider = serviceprovider
         self.create_command_root()
@@ -24,7 +24,8 @@ class ServiceProviderGetListRequest(OCIRequest):
         root.set("xsi:type", self.command_name)
         ET.SubElement(root,"isEnterprise").text = self.isenterprise
         ET.SubElement(root, "responseSizeLimit").text = str(self.response_size)
-        root.append(ET.fromstring(str(self.search)))
+        if self.serviceprovider:
+            root.append(ET.fromstring(str(self.search)))
         return ET.tostring(root)
 
 
