@@ -42,6 +42,11 @@ class Client:
     def get_jsession(self):
         return self.session.cookies.get_dict()['JSESSIONID']
 
+    def set_jsession(self, jsession):
+        self.session.cookies.get_dict()['JSESSIONID'] = jsession
+
+    def set_bw_session(self, bw_session):
+        self.bw_session = bw_session
 
     def send(self, request):
         if not self.bw_session:
