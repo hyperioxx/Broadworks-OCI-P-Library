@@ -1,4 +1,5 @@
 import random
+import socket
 import BroadworksOCIP.broadworks.errors
 from requests import Session
 from zeep import Transport
@@ -60,6 +61,35 @@ class Client:
 
     def _generate_session(self):
         self.bw_session = str(random.randint(0000000000000, 9999999999999))
+
+
+
+class BCCTClient:
+
+    def __init__(self, host="127.0.0.1", port=2220):
+        self.host = host
+        self.port = port
+        self._create_socket()
+
+
+
+    def _create_socket(self):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((self.host, self.port))
+
+
+    def send(self, msg):
+        pass
+
+
+
+
+    
+
+    
+
+
+
 
 
 
