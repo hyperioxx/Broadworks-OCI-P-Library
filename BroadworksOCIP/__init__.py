@@ -6,14 +6,14 @@ from zeep import Client as _Client
 from BroadworksOCIP.broadworks.schema.response import ResponseFactory
 from BroadworksOCIP.broadworks.utils import Authentication
 from BroadworksOCIP.broadworks.schema.base import BroadsoftDocument
-from BroadworksOCIP.broadworks.schema.request.login import AuthenticationRequest, LoginRequest14sp4
-from BroadworksOCIP.broadworks.schema.response.login import AuthenticationResponse, LoginResponse14sp4
-
+from BroadworksOCIP.broadworks.schema.request.login import AuthenticationRequest, LoginRequest14sp4, LoginRequest22v3
+from BroadworksOCIP.broadworks.schema.response.login import AuthenticationResponse, LoginResponse14sp4, LoginResponse22v3
 
 
 class Client:
 
-    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None):
+    # Added isRelease22 parameter to change the login request function format
+    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None, isRelease22=False):
         self.address = address + "?wsdl"
         self.username = username
         self.password = password
@@ -23,17 +23,26 @@ class Client:
         self.session = Session()
         if jsession:
             self.session.cookies['JSESSIONID'] = jsession
-        self.client = _Client(self.address , transport=Transport(session=self.session))
+        self.client = _Client(
+            self.address, transport=Transport(session=self.session))
         self.log = None
         self.login_type = None
+        self.isRelease22 = isRelease22
 
+    # Change login function to accept both loginRequest14sp4 and LoginRequest22v3
     def login(self):
-        response = self.send(AuthenticationRequest(userId=self.username))
-        signed_pass = Authentication.signed_password(self.password, response.get_nonce())
-        response = self.send(LoginRequest14sp4(userId=self.username, signedpassword=signed_pass))
-        self.login_type = response.get_login_type()
-
-
+        if self.isRelease22 == False:
+            response = self.send(AuthenticationRequest(userId=self.username))
+            signed_pass = Authentication.signed_password(
+                self.password, response.get_nonce())
+            response = self.send(LoginRequest14sp4(
+                userId=self.username, signedpassword=signed_pass))
+            self.login_type = response.get_login_type()
+        elif self.isRelease22 == True:
+            response = self.send(LoginRequest22v3(
+                userId=self.username, password=self.password))
+        else:
+            raise IndexError
 
     def get_login_type(self):
         return self.login_type
@@ -53,16 +62,10 @@ class Client:
     def send(self, request):
         if not self.bw_session:
             self._generate_session()
-        bw_doc = BroadsoftDocument(protocol=self.protocol, sessionId=self.bw_session)
+        bw_doc = BroadsoftDocument(
+            protocol=self.protocol, sessionId=self.bw_session)
         bw_doc.add_command(request)
         return ResponseFactory.main(self.client.service.processOCIMessage(bw_doc))
 
-
     def _generate_session(self):
         self.bw_session = str(random.randint(0000000000000, 9999999999999))
-
-
-
-
-
-
