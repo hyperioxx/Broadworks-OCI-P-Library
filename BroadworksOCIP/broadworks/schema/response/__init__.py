@@ -16,6 +16,8 @@ class ResponseFactory:
             return AuthenticationResponse(oci_response)
         elif oci_type == "LoginResponse14sp4":
             return LoginResponse14sp4(oci_response)
+        elif oci_type == "LoginResponse22v3":
+            return LoginResponse14sp4(oci_response)
         elif oci_type == "SystemRoutingGetResponse":
             return SystemRoutingGetResponse(oci_response)
         elif oci_type == "SystemSoftwareVersionGetResponse":
@@ -41,15 +43,10 @@ class ResponseFactory:
         elif oci_type == "c:SuccessResponse":
             return "Succsess"
         elif oci_type == "c:ErrorResponse":
-            raise ErrorResponse(ET.fromstring(oci_response).find("command").find("summary").text)
-
-
-
+            raise ErrorResponse(ET.fromstring(oci_response).find(
+                "command").find("summary").text)
 
     @staticmethod
     def _find_oci_type(oci_response):
         tree = ET.fromstring(oci_response)
         return tree.find("command").attrib['{http://www.w3.org/2001/XMLSchema-instance}type']
-
-
-
