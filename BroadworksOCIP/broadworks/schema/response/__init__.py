@@ -40,8 +40,10 @@ class ResponseFactory:
             return GroupGetResponse14sp7(oci_response)
         elif oci_type == "UserGetListInGroupResponse":
             return UserGetListInGroupResponse(oci_response)
+        elif oci_type == "UserGetResponse22V5":
+            return UserGetResponse22V5(oci_response)
         elif oci_type == "c:SuccessResponse":
-            return "Succsess"
+            return "Success"
         elif oci_type == "c:ErrorResponse":
             raise ErrorResponse(ET.fromstring(oci_response).find(
                 "command").find("summary").text)
