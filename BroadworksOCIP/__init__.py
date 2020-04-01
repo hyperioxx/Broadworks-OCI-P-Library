@@ -84,18 +84,19 @@ class TCPClient:
         self.address = address 
         self.username = username
         self.password = password
-        self.protocol = "OCS"
+        self.protocol = "OCI"
         self.bw_session = bwsession
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client.connect((socket.gethostbyname(address), int(port)))
+        self.client.connect(("91.240.178.211", int(port)))
         self.log = None
         self.login_type = None
         
     def send(self, message):
         bw_doc = BroadsoftDocument(protocol=self.protocol, sessionId=self.bw_session)
         bw_doc.add_command(message)
-        
-        print(self.client.sendall(bw_doc._export()))
+        msg = "<?xml version='1.0' encoding='UTF-8'?>" + str(bw_doc._export())
+        for i in range(10):
+            print(self.client.send(bytes(msg, 'utf-8')))
         print(self.client.recv(2000))
 
 
