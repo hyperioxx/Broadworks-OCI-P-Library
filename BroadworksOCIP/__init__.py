@@ -1,4 +1,5 @@
 import random
+import socket 
 import BroadworksOCIP.broadworks.errors
 from requests import Session
 from zeep import Transport
@@ -38,6 +39,8 @@ class Client:
             response = self.send(LoginRequest14sp4(
                 userId=self.username, signedpassword=signed_pass))
             self.login_type = response.get_login_type()
+            self.groupid = response.groupid
+            self.serviceproviderid = response.serviceproviderid
         elif self.isRelease22 == True:
             response = self.send(LoginRequest22v3(
                 userId=self.username, password=self.password))
@@ -69,3 +72,33 @@ class Client:
 
     def _generate_session(self):
         self.bw_session = str(random.randint(0000000000000, 9999999999999))
+
+
+
+
+class TCPClient:
+    def __init__(self, address=None, port=None, username=None, password=None, bwsession=None):
+        self.address = address 
+        self.username = username
+        self.password = password
+        self.protocol = "OCS"
+        self.bw_session = bwsession
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client.connect((socket.gethostbyname(address), int(port)))
+        self.log = None
+        self.login_type = None
+        
+    def send(self, message):
+        bw_doc = BroadsoftDocument(protocol=self.protocol, sessionId=self.bw_session)
+        bw_doc.add_command(message)
+        
+        print(self.client.sendall(bw_doc._export()))
+        print(self.client.recv(2000))
+
+
+
+
+
+
+
+
