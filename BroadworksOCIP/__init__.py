@@ -39,8 +39,11 @@ class Client:
             response = self.send(LoginRequest14sp4(
                 userId=self.username, signedpassword=signed_pass))
             self.login_type = response.get_login_type()
-            self.groupid = response.groupid
-            self.serviceproviderid = response.serviceproviderid
+            try:
+                self.groupid = response.groupid
+                self.serviceproviderid = response.serviceproviderid
+            except:
+                pass
         elif self.isRelease22 == True:
             response = self.send(LoginRequest22v3(
                 userId=self.username, password=self.password))
