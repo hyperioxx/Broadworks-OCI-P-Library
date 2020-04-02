@@ -194,3 +194,40 @@ class UserDeleteRequest(OCIRequest):
             raise RequiredField("userId is a required field")
         ET.SubElement(root, "userId").text = self.userId
         return ET.tostring(root)
+
+
+
+class UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest(OCIRequest):
+
+    def __init__(self, userId, mailServerSelection="", groupMailServerEmailAddress="", groupMailServerUserId="", groupMailServerPassword=""):
+        self.command_name = "UserVoiceMessagingUserModifyAdvancedVoiceManagementRequest"
+        self.node_name = "command"
+        self.userId = userId
+        self.mailServerSelection = mailServerSelection
+        self.groupMailServerEmailAddress = groupMailServerEmailAddress
+        self.groupMailServerUserId = groupMailServerUserId
+        self.groupMailServerPassword = groupMailServerPassword
+
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        if not self.userId:
+            raise RequiredField("userId is a required field")
+        ET.SubElement(root, "userId").text = self.userId
+        ET.SubElement(root, "mailServerSelection").text = self.mailServerSelection
+        ET.SubElement(root, "groupMailServerEmailAddress").text = self.groupMailServerEmailAddress
+        ET.SubElement(root, "groupMailServerUserId").text = self.groupMailServerUserId
+        ET.SubElement(root, "groupMailServerPassword").text = self.groupMailServerPassword
+        return ET.tostring(root)
+
+    
+
+
+    
+
+    
+
+
+

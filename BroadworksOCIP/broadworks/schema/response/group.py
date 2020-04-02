@@ -61,6 +61,7 @@ class GroupGetResponse14sp7:
                   'callingLineIdName','callingLineIdPhoneNumber',
                   'callingLineIdDisplayPhoneNumber','timeZone','timeZoneDisplayName',
                   'locationDialingCode','contact','address']
+
         tree = ET.fromstring(oci_response)
         for field in fields:
             try:
@@ -70,10 +71,19 @@ class GroupGetResponse14sp7:
 
 
 
-
-
-
-
+class GroupVoiceMessagingGroupGetResponse:
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        tree = ET.fromstring(oci_response)
+        try:
+            self.useMailServerSetting = tree.find("command").find("useMailServerSetting").text
+        except:
+            pass
+        try:
+            self.mailServerNetAddress = tree.find("command").find("mailServerNetAddress").text
+        except:
+            pass
+        
 
 
 class GroupResult:

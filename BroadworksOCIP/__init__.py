@@ -10,27 +10,8 @@ from BroadworksOCIP.broadworks.schema.base import BroadsoftDocument
 from BroadworksOCIP.broadworks.schema.request.login import AuthenticationRequest, LoginRequest14sp4, LoginRequest22v3
 from BroadworksOCIP.broadworks.schema.response.login import AuthenticationResponse, LoginResponse14sp4, LoginResponse22v3
 
+class _Client:
 
-class Client:
-
-    # Added isRelease22 parameter to change the login request function format
-    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None, isRelease22=False):
-        self.address = address + "?wsdl"
-        self.username = username
-        self.password = password
-        self.protocol = "OCI"
-        self.jsession = jsession
-        self.bw_session = bwsession
-        self.session = Session()
-        if jsession:
-            self.session.cookies['JSESSIONID'] = jsession
-        self.client = _Client(
-            self.address, transport=Transport(session=self.session))
-        self.log = None
-        self.login_type = None
-        self.isRelease22 = isRelease22
-
-    # Change login function to accept both loginRequest14sp4 and LoginRequest22v3
     def login(self):
         if self.isRelease22 == False:
             response = self.send(AuthenticationRequest(userId=self.username))
@@ -50,6 +31,32 @@ class Client:
         else:
             raise IndexError
 
+        
+
+
+
+class Client(_Client):
+
+    # Added isRelease22 parameter to change the login request function format
+    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None, isRelease22=False):
+        self.address = address + "?wsdl"
+        self.username = username
+        self.password = password
+        self.protocol = "OCI"
+        self.jsession = jsession
+        self.bw_session = bwsession
+        self.session = Session()
+        if jsession:
+            self.session.cookies['JSESSIONID'] = jsession
+        self.client = _Client(
+            self.address, transport=Transport(session=self.session))
+        self.log = None
+        self.login_type = None
+        self.isRelease22 = isRelease22
+
+    # Change login function to accept both loginRequest14sp4 and LoginRequest22v3
+    
+        
     def get_login_type(self):
         return self.login_type
 
@@ -79,25 +86,33 @@ class Client:
 
 
 
-class TCPClient:
-    def __init__(self, address=None, port=None, username=None, password=None, bwsession=None):
+class TCPClient(_Client):
+    def __init__(self, address=None, port=None, username=None, password=None, bwsession=None, isRelease22=False):
         self.address = address 
         self.username = username
-        self.password = password
+        self.password = password    
         self.protocol = "OCI"
         self.bw_session = bwsession
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client.connect(("91.240.178.211", int(port)))
+        self.client.connect((address, int(port)))
         self.log = None
         self.login_type = None
+        self.isRelease22 = isRelease22
         
     def send(self, message):
+        if not self.bw_session:
+            self._generate_session()
         bw_doc = BroadsoftDocument(protocol=self.protocol, sessionId=self.bw_session)
         bw_doc.add_command(message)
-        msg = "<?xml version='1.0' encoding='UTF-8'?>" + str(bw_doc._export())
-        for i in range(10):
-            print(self.client.send(bytes(msg, 'utf-8')))
-        print(self.client.recv(2000))
+        msg = bw_doc._export().decode()
+        msg = """<?xml version="1.0" encoding="ISO-8859-1"?>""" + msg + "\n" 
+        self.client.send(msg.encode())
+
+        return ResponseFactory.main(self.client.recv(2000).decode())
+
+
+    def _generate_session(self):
+        self.bw_session = str(random.randint(0000000000000, 9999999999999))
 
 
 

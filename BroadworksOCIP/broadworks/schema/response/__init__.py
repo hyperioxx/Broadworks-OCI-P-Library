@@ -42,6 +42,8 @@ class ResponseFactory:
             return UserGetListInGroupResponse(oci_response)
         elif oci_type == "UserGetResponse22V5":
             return UserGetResponse22V5(oci_response)
+        elif oci_type == "GroupVoiceMessagingGroupGetResponse":
+            return GroupVoiceMessagingGroupGetResponse(oci_response)
         elif oci_type == "c:SuccessResponse":
             return "Success"
         elif oci_type == "c:ErrorResponse":

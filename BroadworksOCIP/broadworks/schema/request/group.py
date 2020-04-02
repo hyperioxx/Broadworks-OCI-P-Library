@@ -230,6 +230,22 @@ class GroupDnGetAvailableListRequest(OCIRequest):
         return ET.tostring(root)
 
 
+class GroupVoiceMessagingGroupGetRequest(OCIRequest):
+    def __init__(self, serviceproviderid=None, groupid=None):
+        self.command_name = "GroupVoiceMessagingGroupGetRequest"
+        self.node_name = "command"
+        self.serviceprovider = serviceproviderid
+        self.group = groupid
+        self.create_command_root()
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(root, "serviceProviderId").text = self.serviceprovider
+        ET.SubElement(root, "groupId").text = self.group
+        return ET.tostring(root)
+
 
 
 class Test:
