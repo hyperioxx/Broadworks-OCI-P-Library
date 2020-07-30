@@ -69,7 +69,7 @@ class ServiceProviderGetResponse17sp1:
     def get_default_domain(self):
         return self.default_domain
 
-    def serviceprovider_name(self):
+    def get_serviceprovider_name(self):
         return self.serviceprovider_name
 
     def get_support_email(self):
@@ -99,6 +99,21 @@ class ServiceProviderDomainGetAssignedListResponse:
     def get_domains(self):
         return self.domains
 
+
+class ServiceProviderAccessDeviceCustomTagGetListResponse:
+
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        self.tags = {}
+        tree = ET.fromstring(oci_response)
+
+        for tag in tree.find("command").find("deviceCustomTagsTable").findall("row"):
+            tag_info = tag.findall("col")
+            self.tags[tag_info[0]] = tag_info[1]
+
+
+    def get_tags(self):
+        return self.tags
 
 
 

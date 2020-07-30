@@ -231,6 +231,201 @@ class GroupDnGetAvailableListRequest(OCIRequest):
 
 
 
+class GroupDeviceTypeCustomTagGetListRequest(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType):
+        self.command_name = "GroupDeviceTypeCustomTagGetListRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        return ET.tostring(self.root)
+
+
+
+class GroupDeviceTypeCustomTagModifyRequest(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType, tagName, tagValue):
+        self.command_name = "GroupDeviceTypeCustomTagModifyRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        self.tagName = tagName
+        self.tagValue = tagValue
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        ET.SubElement(self.root,"tagName").text = self.tagName
+        ET.SubElement(self.root,"tagValue").text = self.tagValue
+        return ET.tostring(self.root)
+
+
+
+class GroupDeviceTypeCustomTagAddRequest(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType, tagName, tagValue):
+        self.command_name = "GroupDeviceTypeCustomTagAddRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        self.tagName = tagName
+        self.tagValue = tagValue
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        ET.SubElement(self.root,"tagName").text = self.tagName
+        ET.SubElement(self.root,"tagValue").text = self.tagValue
+        return ET.tostring(self.root)
+
+
+class GroupDeviceTypeCustomTagDeleteListRequest(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType, tagName):
+        self.command_name = "GroupDeviceTypeCustomTagDeleteListRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        self.tagName = tagName
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        if isinstance(self.tagName, list):
+            for tag in self.tagName:
+                ET.SubElement(self.root,"tagName").text = tag
+        else:
+            ET.SubElement(self.root,"tagName").text = self.tagName
+        return ET.tostring(self.root)
+
+
+class GroupDeviceTypeFileGetListRequest14sp8(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType):
+        self.command_name = "GroupDeviceTypeFileGetListRequest14sp8"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        return ET.tostring(self.root)
+
+
+class GroupDeviceTypeFileGetRequest16sp1(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType, fileFormat):
+        self.command_name = "GroupDeviceTypeFileGetRequest16sp1"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        self.file_format = fileFormat
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        ET.SubElement(self.root,"fileFormat").text = self.file_format
+        return ET.tostring(self.root)
+
+
+class GroupDeviceTypeFileModifyRequest14sp8(OCIRequest):
+
+    def __init__(self, serviceproviderid, groupid, deviceType, fileFormat, enconf='Default'):
+        #todo: file upload feature
+        self.command_name = "GroupDeviceTypeFileModifyRequest14sp8"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        self.file_format = fileFormat
+        self.enconf = enconf
+
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        ET.SubElement(self.root,"fileFormat").text = self.file_format
+        ET.SubElement(self.root,"fileSource").text = self.enconf
+        return ET.tostring(self.root)
+
+
+
+        
+class GroupCPEConfigRebuildConfigFileRequest(OCIRequest):
+
+    def __init__(self,serviceproviderid, groupid, deviceType, force=False):
+        self.command_name = "GroupCPEConfigRebuildConfigFileRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.groupid = groupid
+        self.deviceType = deviceType
+        if force:
+            self.force = 'true'
+        else:
+            self.force = 'false'
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root, "groupId").text = self.groupid
+        ET.SubElement(self.root,"deviceType").text = self.deviceType
+        ET.SubElement(self.root,"fileFormat").text = self.file_format
+        ET.SubElement(self.root,"force").text = self.force
+        return ET.tostring(self.root)
+
+
+
+
 
 class Test:
     pass

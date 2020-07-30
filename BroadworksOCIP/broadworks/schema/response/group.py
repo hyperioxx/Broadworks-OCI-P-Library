@@ -57,10 +57,11 @@ class GroupGetResponse14sp7:
     def __init__(self, oci_response):
         self.xml = oci_response
         self.data = {}
-        fields = ['groupName','defaultDomain','userLimit','userCount',
-                  'callingLineIdName','callingLineIdPhoneNumber',
-                  'callingLineIdDisplayPhoneNumber','timeZone','timeZoneDisplayName',
-                  'locationDialingCode','contact','address']
+        fields = ['groupName', 'defaultDomain', 'userLimit', 'userCount',
+                  'callingLineIdName', 'callingLineIdPhoneNumber',
+                  'callingLineIdDisplayPhoneNumber', 'timeZone', 'timeZoneDisplayName',
+                  'locationDialingCode', 'contact', 'address'
+                  ]
         tree = ET.fromstring(oci_response)
         for field in fields:
             try:
@@ -70,8 +71,37 @@ class GroupGetResponse14sp7:
 
 
 
+class GroupDeviceTypeCustomTagGetListResponse:
+
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        self.tags = {}
+        tree = ET.fromstring(oci_response)
+
+        for tag in tree.find("command").find("groupDeviceTypeCustomTagsTable").findall("row"):
+            tag_info = tag.findall("col")
+            self.tags[tag_info[0].text] = tag_info[1].text
 
 
+    def get_tags(self):
+        return self.tags
+
+
+
+class GroupDeviceTypeFileGetListResponse14sp8:
+
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        self._list = {}
+        tree = ET.fromstring(oci_response)
+
+        for _file in tree.find("command").find("groupDeviceTypeFilesTable").findall("row"):
+            file_info = _file.findall("col")
+            self._list[file_info[0].text] = DeviceTypeFile(file_info[0].text, file_info[1].text, file_info[2].text, file_info[3].text, file_info[4].text)
+
+
+    def get_file_list(self):
+        return self._list
 
 
 
@@ -91,3 +121,13 @@ class GroupResult:
 
     def get_user_limit(self):
         return self.user_limit
+
+
+class DeviceTypeFile:
+
+    def __init__(self, fileformat, isauth, accessURL, repoURL, templateURL):
+        self.FileFormat = fileformat
+        self.isAuthenticated = isauth
+        self.AccessURL = accessURL
+        self.RepositoryURL = repoURL
+        self.TemplateURL = templateURL

@@ -107,8 +107,6 @@ class ServiceProviderDomainGetAssignedListRequest(OCIRequest):
 
 
 
-
-
 class SearchCriteriaServiceProviderId(OCIRequest):
 
     def __init__(self, mode="Starts With", value=None, case_insensitive=True):
@@ -127,6 +125,23 @@ class SearchCriteriaServiceProviderId(OCIRequest):
         ET.SubElement(root, "value").text = self.value
         ET.SubElement(root,"isCaseInsensitive").text = self.case_insensitive
         return ET.tostring(root)
+
+class ServiceProviderAccessDeviceCustomTagGetListRequest(OCIRequest):
+
+    def __init__(self, serviceproviderid, device_name):
+        self.command_name = "ServiceProviderAccessDeviceCustomTagGetListRequest"
+        self.node_name = "command"
+        self.create_command_root()
+        self.serviceproviderid = serviceproviderid
+        self.device_name = device_name
+
+    def _export(self):
+        root = ET.Element(self.node_name)
+        root.set("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        root.set("xsi:type", self.command_name)
+        ET.SubElement(root, "serviceProviderId").text = self.serviceproviderid
+        ET.SubElement(self.root,"deviceName").text = self.device_name
+        return ET.tostring(self.root)
 
 
 class SearchCriteriaServiceProviderName:

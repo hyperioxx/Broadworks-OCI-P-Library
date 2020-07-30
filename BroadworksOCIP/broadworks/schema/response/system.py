@@ -65,3 +65,24 @@ class SystemCodecGetListResponse:
     def get_codec(self):
         return self.codec
 
+
+
+class SystemAccessDeviceCustomTagGetListResponse:
+
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        self.tags = {}
+        tree = ET.fromstring(oci_response)
+
+        for tag in tree.find("command").find("deviceCustomTagsTable").findall("row"):
+            tag_info = tag.findall("col")
+            self.tags[tag_info[0]] = tag_info[1]
+
+
+    def get_tags(self):
+        return self.tags
+
+            
+
+
+
