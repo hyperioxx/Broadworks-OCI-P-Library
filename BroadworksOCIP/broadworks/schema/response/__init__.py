@@ -48,6 +48,8 @@ class ResponseFactory:
             return GroupDeviceTypeCustomTagGetListResponse(oci_response)
         elif oci_type == "GroupDeviceTypeFileGetListResponse14sp8":
             return GroupDeviceTypeFileGetListResponse14sp8(oci_response)
+        elif oci_type == "GroupDeviceTypeFileGetResponse16sp1":
+            return GroupDeviceTypeFileGetResponse16sp1(oci_response)
         elif oci_type == "c:SuccessResponse":
             return "Success"
         elif oci_type == "c:ErrorResponse":

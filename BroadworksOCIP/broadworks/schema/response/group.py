@@ -16,6 +16,26 @@ class GroupGetListInServiceProviderResponse:
         return self.group_array
 
 
+class GroupDeviceTypeFileGetResponse16sp1:
+
+    def __init__(self, oci_response):
+        self.xml = oci_response
+        tree = ET.fromstring(oci_response)
+        self.fileSource = tree.find("command").find("fileSource").text
+        self.configurationFileName = tree.find("command").find("configurationFileName").text
+        self.accessUrl = tree.find("command").find("accessUrl").text
+        try:
+            self.repositoryUrl =  tree.find("command").find("repositoryUrl").text
+        except:
+            pass
+        try:
+            self.templateUrl = tree.find("command").find("templateUrl").text
+        except:
+            pass
+
+
+
+
 class GroupDnGetListResponse:
     def __init__(self, oci_response):
         self.xml = oci_response

@@ -28,3 +28,5 @@ x3 = GroupDeviceTypeCustomTagDeleteListRequest('serviceproviderID', 'GroupID', "
 
 response = client.send(x3)
 print(response)
+
+
