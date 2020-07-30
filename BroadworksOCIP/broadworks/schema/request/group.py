@@ -419,7 +419,6 @@ class GroupCPEConfigRebuildConfigFileRequest(OCIRequest):
         ET.SubElement(self.root, "serviceProviderId").text = self.serviceproviderid
         ET.SubElement(self.root, "groupId").text = self.groupid
         ET.SubElement(self.root,"deviceType").text = self.deviceType
-        ET.SubElement(self.root,"fileFormat").text = self.file_format
         ET.SubElement(self.root,"force").text = self.force
         return ET.tostring(self.root)
 
