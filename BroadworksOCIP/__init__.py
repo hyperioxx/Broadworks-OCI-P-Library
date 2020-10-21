@@ -14,7 +14,8 @@ from BroadworksOCIP.broadworks.schema.response.login import AuthenticationRespon
 class Client:
 
     # Added isRelease22 parameter to change the login request function format
-    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None, isRelease22=False):
+    def __init__(self, address=None, username=None, password=None, jsession=None, bwsession=None, isRelease22=False, debug=False):
+        self.debug = debug
         self.address = address + "?wsdl"
         self.username = username
         self.password = password
@@ -34,10 +35,14 @@ class Client:
     def login(self):
         if self.isRelease22 == False:
             response = self.send(AuthenticationRequest(userId=self.username))
+            if self.debug:
+                print(response.xml)
             signed_pass = Authentication.signed_password(
                 self.password, response.get_nonce())
             response = self.send(LoginRequest14sp4(
                 userId=self.username, signedpassword=signed_pass))
+            if self.debug:
+                print(response.xml)
             self.login_type = response.get_login_type()
             try:
                 self.groupid = response.groupid

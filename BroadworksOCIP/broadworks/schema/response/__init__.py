@@ -46,7 +46,7 @@ class ResponseFactory:
             return "Success"
         elif oci_type == "c:ErrorResponse":
             raise ErrorResponse(ET.fromstring(oci_response).find(
-                "command").find("summary").text)
+                "command").find("detail").text)
 
     @staticmethod
     def _find_oci_type(oci_response):
